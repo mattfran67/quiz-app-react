@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Grid } from "@mui/material"
 
-// import { QuizOptions } from "components/QuizOptions"
+import { QuizOptions } from "components/QuizOptions"
 // import { RecentQuizzes } from "components/RecentQuizzes"
 
 export const Home = () => {
@@ -24,10 +24,10 @@ export const Home = () => {
   return (
     <Grid container spacing={2} alignItems="stretch">
       <Grid item sm={quizResults.length ? 6 : 12} xs={12}>
-        {/* <QuizOptions 
+        <QuizOptions 
           selectInput={selectInput}
           handleChange={handleChange} 
-        /> */}
+        />
       </Grid>
       {quizResults.length > 0 &&
         <Grid item sm={6} xs={12}>
