@@ -6,7 +6,7 @@ import {
   Redirect
 } from "react-router-dom"
 
-// import { Home } from "Home"
+import { Home } from "components/Home"
 // import { Quiz } from "Quiz"
 // import { Result } from "Result"
 
@@ -15,7 +15,7 @@ const App = () => {
     <Router>
       <Switch>
         <Route exact path="/">
-          {/* <Home /> */}
+          <Home />
         </Route>
         <Route exact path="/quiz">
           {/* <Quiz /> */}
