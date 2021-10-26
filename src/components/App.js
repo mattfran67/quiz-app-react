@@ -7,7 +7,7 @@ import {
 } from "react-router-dom"
 
 import { Home } from "components/Home"
-// import { Quiz } from "Quiz"
+import { Quiz } from "components/Quiz"
 // import { Result } from "Result"
 
 const App = () => {
@@ -18,7 +18,7 @@ const App = () => {
           <Home />
         </Route>
         <Route exact path="/quiz">
-          {/* <Quiz /> */}
+          <Quiz />
         </Route>
         <Route exact path="/result">
           {/* <Result /> */}
