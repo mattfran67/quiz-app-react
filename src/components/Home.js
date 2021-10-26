@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Grid } from "@mui/material"
 
 import { QuizOptions } from "components/QuizOptions"
-// import { RecentQuizzes } from "components/RecentQuizzes"
+import { RecentQuizzes } from "components/RecentQuizzes"
 
 export const Home = () => {
   const [selectInput, setSelectInput] = useState({ amount: 3, category: 0 })
@@ -31,7 +31,7 @@ export const Home = () => {
       </Grid>
       {quizResults.length > 0 &&
         <Grid item sm={6} xs={12}>
-          {/* <RecentQuizzes quizResults={quizResults} /> */}
+          <RecentQuizzes quizResults={quizResults} />
         </Grid>
       }
     </Grid>
