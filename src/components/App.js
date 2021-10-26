@@ -8,7 +8,7 @@ import {
 
 import { Home } from "components/Home"
 import { Quiz } from "components/Quiz"
-// import { Result } from "Result"
+import { Result } from "components/Result"
 
 const App = () => {
   return (
@@ -21,7 +21,7 @@ const App = () => {
           <Quiz />
         </Route>
         <Route exact path="/result">
-          {/* <Result /> */}
+          <Result />
         </Route>
         <Route path="*">
           <Redirect to="/" />
