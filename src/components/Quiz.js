@@ -1,6 +1,21 @@
 import React, { useState } from "react"
 import { useApiCall } from "hooks/useApiCall"
 import { useHistory, useLocation } from "react-router"
+import { Link as RouterLink } from "react-router-dom"
+import { 
+  Card,
+  CardContent, 
+  Button,  
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography,
+  MobileStepper,
+  Box,
+  CircularProgress,
+  Alert,
+  CardActions
+} from "@mui/material"
 
 export const Quiz = () => {
   const { state } = useLocation()
@@ -59,46 +74,111 @@ export const Quiz = () => {
     setValidationMessage('')
   }
 
+  if (!state) {
+    return (
+      <Card>
+        <CardContent>
+          <Alert severity="warning" variant="filled">
+            Invalid Data!
+          </Alert>
+        </CardContent>
+        <CardActions>
+          <Button
+            variant="outlined"
+            component={RouterLink} 
+            to="/"
+          >
+            Go back to Home
+          </Button>
+        </CardActions>
+      </Card>
+    )
+  }
+
   if (error) {
-    return <div>Error</div>
+    return (
+      <Alert severity="error" variant="filled">
+        Some error has happened!
+      </Alert>
+    )
   }
 
   if (loading) {
-    return <div>loading</div>
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <CircularProgress size={100} />
+        <Typography 
+          color="white"
+          fontSize={18}
+          fontWeight="bold"
+          letterSpacing={2}
+          sx={{position: 'absolute'}}
+        >
+          Loading...
+        </Typography>
+      </Box>
+    )
   }
 
-  const questionsEl = data.map((currentQuestion, index) => (
-    <div key={index} style={{ display: index === position ? 'block' : 'none' }}>
-      <p>{currentQuestion.category}</p>
-      <p>{currentQuestion.question}</p>
-        {currentQuestion.answers.map((answer, i) => (
-          <div key={i}>
-            <label>
-              <input
-                type="radio" 
-                name={`question${index + 1}`}
-                value={answer.text}
-                onChange={() => handleChange(answer)}
-              />
-              {answer.text}
-            </label>
-          </div>
-        ))}
-      <p>{validationMessage}</p>
-      <button
-        onClick={handleClick}
-        type={index !== data.length - 1 ? 'button' : 'submit'}
-      >
-        Next
-      </button>
-    </div>
-  ))
-
   return (
-    <div className="App">
-      <form onSubmit={handleSubmit}>
-        {questionsEl}
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      {data.map((currentQuestion, index) => (
+        <Card
+          key={index}
+          sx={{ maxWidth: 800, m: 'auto' }}
+          style={{ display: index === position ? 'block' : 'none' }}
+        >
+          <CardContent>
+            <MobileStepper
+              variant="dots"
+              steps={data.length}
+              position="static"
+              activeStep={index}
+              sx={{ justifyContent: 'center' }}
+            />
+            <Typography fontSize={17} mb={2}>
+              Category:{' '}
+              <Box 
+                component="span" 
+                sx={{ 
+                  bgcolor: '#ccc',
+                  p: '5px',
+                  borderRadius: 2,
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {currentQuestion.category}
+              </Box>
+            </Typography>
+            <Typography fontWeight={400} fontSize={18}>
+              {currentQuestion.question}
+            </Typography>
+            <RadioGroup>
+              {currentQuestion.answers.map(answer => (
+                <FormControlLabel
+                  key={answer.text}
+                  control={<Radio />} 
+                  label={answer.text}
+                  value={answer.text}
+                  onChange={() => handleChange(answer)}
+                />
+              ))}
+            </RadioGroup>
+            <Typography color="red" fontSize={18}>
+              {validationMessage}
+            </Typography>
+            <Box textAlign="right">
+              <Button
+                variant="contained"
+                onClick={handleClick}
+                type={index !== data.length - 1 ? 'button' : 'submit'}
+              >
+                Next
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      ))}
+    </form>
   )
 }
