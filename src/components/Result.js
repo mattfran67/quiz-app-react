@@ -1,16 +1,38 @@
+import { styled, Button, Card, CardContent, Typography } from '@mui/material'
+import { green, red } from '@mui/material/colors'
+import { Box } from '@mui/system'
 import React from 'react'
 import { useLocation } from 'react-router'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
+
+const Answer = styled((props) => {
+  const { correct, ...other } = props
+  return <div {...other} />
+})(({ correct }) => ({
+  borderWidth: 2, 
+  borderStyle: 'solid',
+  borderColor: correct ? green[500] : red[500],
+  borderRadius: 5,
+  marginBottom: 10,
+  padding: 12,
+  backgroundColor: correct ? green[50] : red[50]
+}))
 
 export const Result = () => {
   const { state } = useLocation()
 
   if (!state) {
     return (
-      <div>
+      <Card sx={{ m: 'auto', maxWidth: 800 }}>
+        <CardContent>
         <p>You have not done the quiz!</p>
-        <Link to="/">Go back to Home</Link>
-      </div>
+        <Box textAlign="right">
+          <Button component={RouterLink} to="/" variant="outlined">
+            Go back to Home
+          </Button>
+        </Box>
+        </CardContent>
+      </Card>
     )
   }
 
@@ -19,20 +41,33 @@ export const Result = () => {
   }).length
 
   return (
-    <div>
-      Correct Answers: {userScore} / {state.length}
-      <ul>
-        {state.map((item, index) => (
-          <li key={index}>
-            <b>
-              {item.question}
-            </b>
-            <div>Correct answer: {item.correctAnswer.text}</div>
-            <div>Your Answer: {item.userAnswer.text}</div>
-          </li>
-        ))}
-      </ul>
-      <Link to="/">Go back to Home</Link>
-    </div>
+    <Card sx={{ m: 'auto', maxWidth: 800 }}>
+      <CardContent>
+        <Typography
+          textAlign="right"
+          fontSize={18}
+        >
+          Correct Answers: {userScore} / {state.length}
+        </Typography>
+          {state.map((item, index) => (
+            <div key={index}>
+              <Typography fontSize={18}>
+                {item.question}
+              </Typography>
+              <Answer correct>
+                Correct answer: {item.correctAnswer.text}
+              </Answer>
+              <Answer correct={item.userAnswer.isCorrect}>
+                Your Answer: {item.userAnswer.text}
+              </Answer>
+            </div>
+          ))}
+        <Box textAlign="right">
+          <Button component={RouterLink} to="/" variant="outlined">
+            Go back to Home
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
   )
 }
